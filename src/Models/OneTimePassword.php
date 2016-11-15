@@ -13,7 +13,7 @@ class OneTimePassword extends Model
 
     public function removeExpiredTokens()
     {
-        OneTimePassword::where('expires_on', '>=', Carbon::now())->delete();
+        OneTimePassword::where('expires_on', '<=', Carbon::now())->delete();
 
         return true;
     }
