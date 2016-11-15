@@ -1,0 +1,22 @@
+{
+    "name": "fleetfoot/otp",
+    "description": "Laravel5 OTP manager",
+    "keywords": ["laravel", "otp"],
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Dhavan Vaidya",
+            "email": "quark@codingquark.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Fleetfoot\\OTP\\": "src/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist"
+    }
+}
