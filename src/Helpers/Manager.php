@@ -6,7 +6,7 @@ use Config;
 use Exception;
 use Fleetfoot\OTP\Exceptions\MaxAllowedOtpsExhaustedException;
 use Fleetfoot\OTP\Exceptions\ServiceBlockedException;
-use Fleetfoot\OTP\Helpers\OneTimePassword as OTP;
+use Fleetfoot\OTP\Models\OneTimePassword as OTP;
 use Fleetfoot\OTP\Helpers\OTPGenerator;
 use Fleetfoot\OTP\Helpers\OTPNotifier;
 use Fleetfoot\OTP\Helpers\OTPValidator;
