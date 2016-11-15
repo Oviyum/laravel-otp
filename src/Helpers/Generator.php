@@ -3,7 +3,7 @@
 namespace Fleetfoot\OTP\Helpers;
 
 use Config;
-use Fleetfoot\OTP\OneTimePassword;
+use Fleetfoot\OTP\Models\OneTimePassword;
 
 /**
  * OTP generation facilitator.
