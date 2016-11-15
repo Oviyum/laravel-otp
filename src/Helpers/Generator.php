@@ -10,7 +10,6 @@ use Fleetfoot\OTP\Models\OneTimePassword;
  */
 class Generator
 {
-    public $otp;
     private $otpModel;
 
     public function __construct()
