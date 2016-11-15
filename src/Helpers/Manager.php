@@ -8,7 +8,6 @@ use Fleetfoot\OTP\Exceptions\MaxAllowedOtpsExhaustedException;
 use Fleetfoot\OTP\Exceptions\ServiceBlockedException;
 use Fleetfoot\OTP\Models\OneTimePassword as OTP;
 use Fleetfoot\OTP\Helpers\OTPGenerator;
-use Fleetfoot\OTP\Helpers\OTPNotifier;
 use Fleetfoot\OTP\Helpers\OTPValidator;
 
 /**
@@ -18,13 +17,11 @@ use Fleetfoot\OTP\Helpers\OTPValidator;
 class Manager
 {
     private $otpGenerator;
-    private $otpNotifier;
     private $otpValidator;
 
     public function __construct()
     {
         $this->otpGenerator = new Generator;
-        $this->otpNotifier = new Notifier;
         $this->otpValidator = new Validator;
     }
 
@@ -89,7 +86,7 @@ class Manager
         }
 
         try {
-            $this->otpNotifier->notify($otp, $to);
+            $notifier->notify($otp, $to);
             $status = true;
         } catch (Exception $e) {
             $status = false;
