@@ -40,6 +40,8 @@ class Generator
 
         if ($otp) {
             return $otp;
+        } else {
+            $otp = new OneTimePassword;
         }
 
         $otp = $otp->generate($module, $id, Config::get('otp.size'));
