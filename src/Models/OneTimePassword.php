@@ -4,6 +4,7 @@ namespace Fleetfoot\OTP\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Config;
 
 class OneTimePassword extends Model
 {
@@ -12,7 +13,7 @@ class OneTimePassword extends Model
 
     public function removeExpiredTokens()
     {
-        OneTimePassword::where('expires_on', '>=', Carbon::now()->timestamp)->delete();
+        OneTimePassword::where('expires_on', '>=', Carbon::now())->delete();
 
         return true;
     }
@@ -27,8 +28,10 @@ class OneTimePassword extends Model
         $this->token = random_int($min, $max);
         $this->module = $module;
         $this->entity_id = $id;
-        $this->expires_on = Carbon::now()->addMinutes(Config::get('otp.expiry'))->timestamp;
+        $this->expires_on = Carbon::now()->addMinutes(Config::get('otp.expiry'));
         $this->save();
+
+        return $this;
     }
 
     public function getTrialsCount($module, $id)
