@@ -9,6 +9,7 @@ use Fleetfoot\OTP\Exceptions\ServiceBlockedException;
 use Fleetfoot\OTP\Models\OtpBlacklist;
 use Fleetfoot\OTP\Helpers\OTPGenerator;
 use Fleetfoot\OTP\Helpers\OTPValidator;
+use Fleetfoot\OTP\Interfaces\Notifier;
 
 /**
  * Wrapper class to interact with OTP module.
@@ -72,17 +73,21 @@ class Manager
 
     /**
      * Notifies OTP by supported drivers.
+     * $module and $id are required, if $withValidation is true.
      *
      * @param NotifierInterface $notifier
      * @param string $otp
      * @param string $to
+     * @param boolean $withValidation
+     * @param string $module
+     * @param string $id
      *
      * @return boolean
      */
-    public function notify(NotifierInterface $notifier, $otp, $to)
+    public function notify(Notifier $notifier, $otp, $to, $withValidation = false, $module = null, $id = null)
     {
         if ($withValidation === true) {
-            $notifier->validate();
+            $notifier->withValidation($module, $id);
         }
 
         try {
