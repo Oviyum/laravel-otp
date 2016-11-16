@@ -32,8 +32,8 @@ class Validator
             ->where('entity_id', $id)
             ->first();
 
-        if ($otp) {
-            return false;
+        if (!$otp) {
+            return true;
         }
 
         return true;
