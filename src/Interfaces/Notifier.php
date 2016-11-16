@@ -5,5 +5,5 @@ namespace Fleetfoot\OTP\Interfaces;
 interface Notifier
 {
     public function notify($otp, $to);
-    public function validate();
+    public function withValidation($module, $id);
 }
