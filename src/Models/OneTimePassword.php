@@ -2,9 +2,9 @@
 
 namespace Fleetfoot\OTP\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Config;
+use Illuminate\Database\Eloquent\Model;
 
 class OneTimePassword extends Model
 {

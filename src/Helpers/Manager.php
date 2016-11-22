@@ -6,10 +6,10 @@ use Config;
 use Exception;
 use Fleetfoot\OTP\Exceptions\MaxAllowedOtpsExhaustedException;
 use Fleetfoot\OTP\Exceptions\ServiceBlockedException;
-use Fleetfoot\OTP\Models\OtpBlacklist;
 use Fleetfoot\OTP\Helpers\OTPGenerator;
 use Fleetfoot\OTP\Helpers\OTPValidator;
 use Fleetfoot\OTP\Interfaces\Notifier;
+use Fleetfoot\OTP\Models\OtpBlacklist;
 
 /**
  * Wrapper class to interact with OTP module.
