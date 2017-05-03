@@ -33,7 +33,7 @@ class Validator
             ->first();
 
         if (!$otp) {
-            return true;
+            return false;
         }
 
         return true;
