@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateOneTimePasswordsTable extends Migration
+class CreateOtpTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateOneTimePasswordsTable extends Migration
      */
     public function up()
     {
-        Schema::create('one_time_passwords', function (Blueprint $table) {
+        Schema::create('otp', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('token')->unsigned();
@@ -31,6 +31,6 @@ class CreateOneTimePasswordsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('one_time_passwords');
+        Schema::drop('otp');
     }
 }

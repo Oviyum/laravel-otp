@@ -2,7 +2,7 @@
 
 namespace Fleetfoot\OTP\Helpers;
 
-use Fleetfoot\OTP\Models\OneTimePassword as OTP;
+use Fleetfoot\OTP\Models\OTP;
 use Fleetfoot\OTP\Models\OtpBlacklist;
 
 /**

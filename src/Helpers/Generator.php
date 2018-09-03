@@ -3,7 +3,7 @@
 namespace Fleetfoot\OTP\Helpers;
 
 use Config;
-use Fleetfoot\OTP\Models\OneTimePassword;
+use Fleetfoot\OTP\Models\OTP;
 
 /**
  * OTP generation facilitator.
@@ -14,7 +14,7 @@ class Generator
 
     public function __construct()
     {
-        $this->otpModel = new OneTimePassword;
+        $this->otpModel = new OTP;
     }
 
     /**
@@ -27,7 +27,7 @@ class Generator
      * @param string $module - requesting module
      * @param string $id     - ID of the requesting object
      *
-     * @return OneTimePassword $otp
+     * @return OTP $otp
      *
      */
     public function generate($module, $id)
@@ -42,7 +42,7 @@ class Generator
         if ($otp) {
             return $otp;
         } else {
-            $otp = new OneTimePassword;
+            $otp = new OTP;
         }
 
         $otp = $otp->generate($module, $id, Config::get('otp.size'));
