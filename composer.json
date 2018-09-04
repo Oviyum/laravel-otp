@@ -1,6 +1,6 @@
 {
     "name": "fleetfoot/otp",
-    "version": "0.0.1"
+    "version": "0.0.1",
     "description": "Laravel5 OTP manager",
     "keywords": ["laravel", "otp"],
     "license": "GPL",
