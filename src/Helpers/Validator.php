@@ -2,11 +2,15 @@
 
 namespace Fleetfoot\OTP\Helpers;
 
-use Fleetfoot\OTP\Models\OneTimePassword as OTP;
+use Fleetfoot\OTP\Exceptions\MaxAllowedAttemptsExceededException;
+use Fleetfoot\OTP\Models\OTP;
+use Fleetfoot\OTP\Models\OtpAttempt;
 use Fleetfoot\OTP\Models\OtpBlacklist;
+use Carbon\Carbon;
+use Config;
 
 /**
- * OTP validaty checker.
+ * OTP validity checker.
  */
 class Validator
 {
@@ -33,6 +37,12 @@ class Validator
             ->first();
 
         if (!$otp) {
+            if (!$this->isAttemptsExceeded($module, $id)) {
+                $this->_addAttempt($module, $id);
+            } else {
+                throw new MaxAllowedAttemptsExceededException("Max allowed attempts exceeded. Try again later.", 403);
+            }
+
             return false;
         }
 
@@ -67,5 +77,55 @@ class Validator
     public function getTrials($module, $id)
     {
         return (new OTP)->getTrialsCount($module, $id);
+    }
+
+    /**
+     * Check if attempts exceeded
+     *
+     * @param string $module
+     * @param string $id
+     *
+     * @return int
+     */
+    public function isAttemptsExceeded($module, $id)
+    {
+        if ($this->countAttempts($module, $id) >= Config::get('otp.allowed_attempts')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get number of attempts made to validate OTP.
+     *
+     * @param string $module
+     * @param string $id
+     *
+     * @return int
+     */
+    public function countAttempts($module, $id)
+    {
+        return OtpAttempt::where('module', $module)
+            ->where('entity_id', $id)
+            ->where('created_at', '>=', Carbon::now()->subMinutes(Config::get('otp.attempts_count_time')))
+            ->count();
+    }
+
+    /**
+     * Write validate check attempt for (module + id).
+     * @param string $module
+     * @param string $id
+     *
+     * @return boolean
+     */
+    private function _addAttempt($module, $id)
+    {
+        $otpAttempt = new OtpAttempt;
+        $otpAttempt->module = $module;
+        $otpAttempt->entity_id = $id;
+        $otpAttempt->save();
+
+        return true;
     }
 }

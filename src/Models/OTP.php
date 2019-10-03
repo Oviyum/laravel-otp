@@ -6,14 +6,14 @@ use Carbon\Carbon;
 use Config;
 use Illuminate\Database\Eloquent\Model;
 
-class OneTimePassword extends Model
+class OTP extends Model
 {
-    protected $table = 'one_time_passwords';
+    protected $table = 'otp';
     protected $dates = ['created_at', 'updated_at'];
 
     public function removeExpiredTokens()
     {
-        OneTimePassword::where('expires_on', '<=', Carbon::now())->delete();
+        OTP::where('expires_on', '<=', Carbon::now())->delete();
 
         return true;
     }
@@ -36,7 +36,7 @@ class OneTimePassword extends Model
 
     public function getTrialsCount($module, $id)
     {
-        $trials = OneTimePassword::whereModule($module)
+        return OTP::whereModule($module)
             ->whereEntityId($id)
             ->count();
     }
