@@ -58,6 +58,12 @@ The manager gives `notify()` method which accepts any implementation of `Notifie
 
 You might want to call `useOtp()` of the manager after the varification process completes. If you do not call this method, OTP will remain valid till it reaches its expiry limit.
 
+### Clean outdated OTPs and validation attemps
+You can clean up outdated OTPs and validation attempts by running:
+`php artisan otp:clean`
+
+You can do it in schedule:
+`$schedule->command('otp:clean')->daily();`
 
 ---
 
@@ -71,4 +77,3 @@ All contributions are welcome! Create a fork, create PRs, discuss!
 1. Add option for numeric/alphanumeric code generation
 2. Provide a way to unblock clients
 3. Provide example implementation(s) for Notifier
-4. Find a better way to remove expired OTPs from DB

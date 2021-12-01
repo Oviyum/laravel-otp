@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class OTP extends Model
 {
     protected $table = 'otp';
-    protected $dates = ['created_at', 'updated_at'];
+    protected $dates = ['created_at', 'updated_at', 'expires_on'];
 
     public function removeExpiredTokens()
     {
@@ -20,8 +20,6 @@ class OTP extends Model
 
     public function generate($module, $id, $length)
     {
-        $this->removeExpiredTokens();
-
         $min = str_pad(1, $length, 0);
         $max = str_pad(9, $length, 9);
 
@@ -36,8 +34,10 @@ class OTP extends Model
 
     public function getTrialsCount($module, $id)
     {
-        return OTP::whereModule($module)
-            ->whereEntityId($id)
+        return OTP::query()
+            ->where('module', $module)
+            ->where('entity_id', $id)
+            ->where('expires_on', '>', Carbon::now())
             ->count();
     }
 }
