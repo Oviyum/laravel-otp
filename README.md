@@ -9,6 +9,7 @@ Several configuration options are provided:
 - Maximum OTPs allowed for a client
 - Length of OTP
 - Blacklisting clients
+- Dafault length of OTP
 
 ---
 
@@ -42,8 +43,9 @@ The package provides with the following helpers:
 You can use `Manager` to interact with the whole module. It acts as a wrapper for the complete functionality. However, you are free to use other helpers to generate and validate the OTPs.
 
 ### Generate an OTP
-To generate an OTP, call `generate` method of `Manager`. This takes two arguments: module and ID. Both are strings. You can pass anything here, but keep in mind that this combination will be used to validate the OTP.
+To generate an OTP, call `generate` method of `Manager`. This takes two mandatory arguments: module and ID. Both are strings. You can pass anything here, but keep in mind that this combination will be used to validate the OTP.
 For e.g. `$manager->generate('users', '1')` will return an OTP for the combination of 'users' module and ID '1'.
+If you want change default OTP length you can set optional third param `$manager->generate('users', '1', 6)`
 
 ### Validate an OTP
 To validate, call `isValid()` of the manager. It will return boolean based on the validity of the OTP.

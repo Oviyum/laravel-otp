@@ -30,7 +30,7 @@ class Generator
      * @return OTP $otp
      *
      */
-    public function generate($module, $id)
+    public function generate($module, $id, $otpSize = null)
     {
         $this->otpModel->removeExpiredTokens();
 
@@ -45,7 +45,11 @@ class Generator
             $otp = new OTP;
         }
 
-        $otp = $otp->generate($module, $id, Config::get('otp.size'));
+        if (!$otpSize) {
+            $otpSize = Config::get('otp.size');
+        }
+
+        $otp = $otp->generate($module, $id, $otpSize);
 
         return $otp;
     }

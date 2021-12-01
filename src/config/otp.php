@@ -22,7 +22,7 @@ return [
     'allowed_otps' => env('MAX_OTP', 5),
 
     /**
-     * Length of OTP
+     * Dafault length of OTP
      */
     'size' => env('OTP_SIZE', 6),
 
