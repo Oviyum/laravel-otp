@@ -97,7 +97,7 @@ class Validator
     }
 
     /**
-     * Get number of attempts made to validate OTP.
+     * Get number of OTP validation attempts for module + id.
      *
      * @param string $module
      * @param string $id
@@ -119,7 +119,7 @@ class Validator
      *
      * @return boolean
      */
-    private function _addAttempt($module, $id)
+    private function addAttempt($module, $id)
     {
         $otpAttempt = new OtpAttempt;
         $otpAttempt->module = $module;
