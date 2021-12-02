@@ -16,8 +16,7 @@ return [
      * Maximum OTPs allowed to be generated
      * during the expiration time.
      * When this limit exceeds, the client
-     * will be blocked from further OTP
-     * generation.
+     * will be temporarily forbidden from OTP generation.
      */
     'allowed_otps' => env('MAX_OTP', 5),
 

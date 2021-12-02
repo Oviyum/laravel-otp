@@ -54,8 +54,13 @@ To validate, call `isValid()` of the manager. It will return boolean based on th
 Validation makes sure the module + ID is not blocked, the token is not expired and validation attemts is not еxceeded
 
 ### Blocking and Unblocking
-Whenever the module + ID exceeds the maximum allowed (non-expired) OTPs, they will be blocked. You won't be able to generate anymore OTPs for that module + ID combination.
-Currently, there is no interface to unblock the clients. You need to manually remove the entry from the table `otp_blacklist`. Please check ToDo to check progress and thoughts on this feature.
+You won't be able to validate OTP and generate anymore OTPs for blocked module + ID combination.
+
+To block use:
+`$manager->block('users', '1')`
+
+To unblock use:
+`$manager->unblock('users', '1')`
 
 ### Notifications
 The manager gives `notify()` method which accepts any implementation of `Notifier` interface. You can implement this interface as per your business logic.
@@ -79,5 +84,5 @@ All contributions are welcome! Create a fork, create PRs, discuss!
 
 # TODO
 1. Add option for numeric/alphanumeric code generation
-2. Provide a way to unblock clients
-3. Provide example implementation(s) for Notifier
+2. Provide example implementation(s) for Notifier
+3. Find a better way to remove expired OTPs from DB

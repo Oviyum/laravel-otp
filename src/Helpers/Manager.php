@@ -45,13 +45,11 @@ class Manager
     public function generate($module, $id, $otpSize = null)
     {
         if ($this->otpValidator->isBlocked($module, $id)) {
-            throw new ServiceBlockedException("Service blocked due to too many requests", 403);
+            throw new ServiceBlockedException("OTP generation is blocked for module '$module' and id '$id'", 403);
         }
 
         if (Config::get('otp.allowed_otps') <= $this->otpValidator->getTrials($module, $id)) {
-            $this->_block($module, $id);
-
-            throw new MaxAllowedOtpsExhaustedException("Max allowed OTPs are:" . Config::get('otp.allowed_otps') . ". Exahusted.", 403);
+            throw new MaxAllowedOtpsExhaustedException("Max allowed OTPs are:" . Config::get('otp.allowed_otps') . ". Exhausted.", 403);
         }
 
         $otp = $this->otpGenerator->generate($module, $id, $otpSize);
@@ -125,7 +123,7 @@ class Manager
      *
      * @return boolean
      */
-    private function _block($module, $id)
+    public function block($module, $id)
     {
         $blacklist = new OtpBlacklist;
         $blacklist->module = $module;
@@ -133,5 +131,20 @@ class Manager
         $blacklist->save();
 
         return true;
+    }
+
+    /**
+     * Unblock (module + id).
+     * @param string $module
+     * @param string $id
+     *
+     * @return boolean
+     */
+    public function unblock($module, $id): int
+    {
+        return (bool)OtpBlacklist::query()
+            ->where('module', $module)
+            ->where('entity_id', $id)
+            ->delete();
     }
 }
