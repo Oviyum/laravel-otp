@@ -20,6 +20,7 @@ class Validator
      * @param string $otp
      * @param string $module
      * @param string $id
+     * @throws MaxAllowedAttemptsExceededException
      *
      * @return boolean
      */
@@ -29,7 +30,10 @@ class Validator
             return false;
         }
 
-        $otp = OTP::where('token', $otp)
+        if ($this->isAttemptsExceeded($module, $id)) {
+            throw new MaxAllowedAttemptsExceededException("Max allowed attempts exceeded. Try again later.", 403);
+        }
+
         $otp = OTP::query()
             ->where('token', $otp)
             ->where('module', $module)
@@ -39,11 +43,7 @@ class Validator
             ->first();
 
         if (!$otp) {
-            if (!$this->isAttemptsExceeded($module, $id)) {
-                $this->_addAttempt($module, $id);
-            } else {
-                throw new MaxAllowedAttemptsExceededException("Max allowed attempts exceeded. Try again later.", 403);
-            }
+            $this->addAttempt($module, $id);
 
             return false;
         }
