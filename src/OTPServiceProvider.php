@@ -3,6 +3,7 @@
 namespace Fleetfoot\OTP;
 
 use Illuminate\Support\ServiceProvider;
+use Fleetfoot\OTP\Commands\CleanupCommand;
 
 class OTPServiceProvider extends ServiceProvider
 {
@@ -13,9 +14,7 @@ class OTPServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([
-            __DIR__ . '/database/migrations/' => database_path('migrations'),
-        ], 'migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
 
         $this->publishes([
             __DIR__ . '/config/' => config_path(),
@@ -29,6 +28,10 @@ class OTPServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                CleanupCommand::class,
+            ]);
+        }
     }
 }

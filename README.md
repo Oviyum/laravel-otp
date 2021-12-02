@@ -6,10 +6,12 @@ The module generates OTPs and validates them. You can plug your own notifier (su
 
 Several configuration options are provided:
 - Expiration duration
-- Maximum OTPs allowed for a client
+- Maximum OTPs allowed for a client during the expiration time
 - Length of OTP
 - Blacklisting clients
 - Dafault length of OTP
+- Allowed validation OTP attempts
+- Validation OTP attempts count time
 
 ---
 
@@ -49,7 +51,7 @@ If you want change default OTP length you can set optional third param `$manager
 
 ### Validate an OTP
 To validate, call `isValid()` of the manager. It will return boolean based on the validity of the OTP.
-Validation makes sure the module + ID is not blocked, and the token is not expired.
+Validation makes sure the module + ID is not blocked, the token is not expired and validation attemts is not еxceeded
 
 ### Blocking and Unblocking
 Whenever the module + ID exceeds the maximum allowed (non-expired) OTPs, they will be blocked. You won't be able to generate anymore OTPs for that module + ID combination.
@@ -60,6 +62,12 @@ The manager gives `notify()` method which accepts any implementation of `Notifie
 
 You might want to call `useOtp()` of the manager after the varification process completes. If you do not call this method, OTP will remain valid till it reaches its expiry limit.
 
+### Clean outdated OTPs and validation attemps
+You can clean up outdated OTPs and validation attempts by running:
+`php artisan otp:clean`
+
+You can do it in schedule:
+`$schedule->command('otp:clean')->daily();`
 
 ---
 
@@ -73,4 +81,3 @@ All contributions are welcome! Create a fork, create PRs, discuss!
 1. Add option for numeric/alphanumeric code generation
 2. Provide a way to unblock clients
 3. Provide example implementation(s) for Notifier
-4. Find a better way to remove expired OTPs from DB

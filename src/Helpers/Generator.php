@@ -2,6 +2,7 @@
 
 namespace Fleetfoot\OTP\Helpers;
 
+use Carbon\Carbon;
 use Config;
 use Fleetfoot\OTP\Models\OTP;
 
@@ -32,11 +33,11 @@ class Generator
      */
     public function generate($module, $id, $otpSize = null)
     {
-        $this->otpModel->removeExpiredTokens();
-
         $otp = $this->otpModel
-            ->whereModule($module)
-            ->whereEntityId($id)
+            ->where('module', $module)
+            ->where('entity_id', $id)
+            ->where('expires_on', '>', Carbon::now())
+            ->orderByDesc('id')
             ->first();
 
         if ($otp) {
