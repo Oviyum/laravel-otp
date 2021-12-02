@@ -21,17 +21,17 @@ return [
     'allowed_otps' => env('MAX_OTP', 5),
 
     /**
-     * Length of OTP
+     * Dafault length of OTP
      */
     'size' => env('OTP_SIZE', 6),
 
     /**
-     * Attempts count time in minutes
+     * Validation OTP attempts count time in minutes
      */
     'attempts_count_time' => env('OTP_COUNT_TIME', 10),
 
     /**
-     * Allowed attempts within duration of attempts_count_time
+     * Allowed validation OTP attempts within duration of attempts_count_time
      */
     'allowed_attempts' => env('OTP_ALLOWED_ATTEMPTS', 5),
 ];
