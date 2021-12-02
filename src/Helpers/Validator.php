@@ -25,15 +25,17 @@ class Validator
      */
     public function isValid($otp, $module, $id)
     {
-        (new OTP)->removeExpiredTokens();
-
         if ($this->isBlocked($module, $id)) {
             return false;
         }
 
         $otp = OTP::where('token', $otp)
+        $otp = OTP::query()
+            ->where('token', $otp)
             ->where('module', $module)
             ->where('entity_id', $id)
+            ->where('expires_on', '>', Carbon::now()->subMinutes(Config::get('otp.expiry')))
+            ->orderByDesc('id')
             ->first();
 
         if (!$otp) {

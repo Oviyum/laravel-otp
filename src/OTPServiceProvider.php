@@ -3,6 +3,7 @@
 namespace Fleetfoot\OTP;
 
 use Illuminate\Support\ServiceProvider;
+use Fleetfoot\OTP\Commands\CleanupCommand;
 
 class OTPServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,10 @@ class OTPServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                CleanupCommand::class,
+            ]);
+        }
     }
 }
