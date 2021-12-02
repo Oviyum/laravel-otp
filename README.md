@@ -6,9 +6,12 @@ The module generates OTPs and validates them. You can plug your own notifier (su
 
 Several configuration options are provided:
 - Expiration duration
-- Maximum OTPs allowed for a client
+- Maximum OTPs allowed for a client during the expiration time
 - Length of OTP
 - Blacklisting clients
+- Dafault length of OTP
+- Allowed validation OTP attempts
+- Validation OTP attempts count time
 
 ---
 
@@ -42,22 +45,34 @@ The package provides with the following helpers:
 You can use `Manager` to interact with the whole module. It acts as a wrapper for the complete functionality. However, you are free to use other helpers to generate and validate the OTPs.
 
 ### Generate an OTP
-To generate an OTP, call `generate` method of `Manager`. This takes two arguments: module and ID. Both are strings. You can pass anything here, but keep in mind that this combination will be used to validate the OTP.
+To generate an OTP, call `generate` method of `Manager`. This takes two mandatory arguments: module and ID. Both are strings. You can pass anything here, but keep in mind that this combination will be used to validate the OTP.
 For e.g. `$manager->generate('users', '1')` will return an OTP for the combination of 'users' module and ID '1'.
+If you want change default OTP length you can set optional third param `$manager->generate('users', '1', 6)`
 
 ### Validate an OTP
 To validate, call `isValid()` of the manager. It will return boolean based on the validity of the OTP.
-Validation makes sure the module + ID is not blocked, and the token is not expired.
+Validation makes sure the module + ID is not blocked, the token is not expired and validation attemts is not еxceeded
 
 ### Blocking and Unblocking
-Whenever the module + ID exceeds the maximum allowed (non-expired) OTPs, they will be blocked. You won't be able to generate anymore OTPs for that module + ID combination.
-Currently, there is no interface to unblock the clients. You need to manually remove the entry from the table `otp_blacklist`. Please check ToDo to check progress and thoughts on this feature.
+You won't be able to validate OTP and generate anymore OTPs for blocked module + ID combination.
+
+To block use:
+`$manager->block('users', '1')`
+
+To unblock use:
+`$manager->unblock('users', '1')`
 
 ### Notifications
 The manager gives `notify()` method which accepts any implementation of `Notifier` interface. You can implement this interface as per your business logic.
 
 You might want to call `useOtp()` of the manager after the varification process completes. If you do not call this method, OTP will remain valid till it reaches its expiry limit.
 
+### Clean outdated OTPs and validation attemps
+You can clean up outdated OTPs and validation attempts by running:
+`php artisan otp:clean`
+
+You can do it in schedule:
+`$schedule->command('otp:clean')->daily();`
 
 ---
 
@@ -69,6 +84,5 @@ All contributions are welcome! Create a fork, create PRs, discuss!
 
 # TODO
 1. Add option for numeric/alphanumeric code generation
-2. Provide a way to unblock clients
-3. Provide example implementation(s) for Notifier
-4. Find a better way to remove expired OTPs from DB
+2. Provide example implementation(s) for Notifier
+3. Find a better way to remove expired OTPs from DB
