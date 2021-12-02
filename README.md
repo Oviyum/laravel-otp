@@ -6,9 +6,11 @@ The module generates OTPs and validates them. You can plug your own notifier (su
 
 Several configuration options are provided:
 - Expiration duration
-- Maximum OTPs allowed for a client
+- Maximum OTPs allowed for a client during the expiration time
 - Length of OTP
 - Blacklisting clients
+- Allowed validation OTP attempts
+- Validation OTP attempts count time
 
 ---
 
@@ -47,7 +49,7 @@ For e.g. `$manager->generate('users', '1')` will return an OTP for the combinati
 
 ### Validate an OTP
 To validate, call `isValid()` of the manager. It will return boolean based on the validity of the OTP.
-Validation makes sure the module + ID is not blocked, and the token is not expired.
+Validation makes sure the module + ID is not blocked, the token is not expired and validation attemts is not еxceeded
 
 ### Blocking and Unblocking
 Whenever the module + ID exceeds the maximum allowed (non-expired) OTPs, they will be blocked. You won't be able to generate anymore OTPs for that module + ID combination.

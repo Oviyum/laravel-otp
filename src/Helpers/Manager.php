@@ -4,6 +4,7 @@ namespace Fleetfoot\OTP\Helpers;
 
 use Config;
 use Exception;
+use Fleetfoot\OTP\Exceptions\MaxAllowedAttemptsExceededException;
 use Fleetfoot\OTP\Exceptions\MaxAllowedOtpsExhaustedException;
 use Fleetfoot\OTP\Exceptions\ServiceBlockedException;
 use Fleetfoot\OTP\Helpers\OTPGenerator;
@@ -63,6 +64,7 @@ class Manager
      * @param string $otp
      * @param string $module
      * @param string $id
+     * @throws MaxAllowedAttemptsExceededException
      *
      * @return boolean
      */
